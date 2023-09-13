@@ -1,0 +1,16 @@
+dism /online /get-targeteditions
+
+2022 STANDARD: 
+dism /online /set-edition:serverstandard /productkey:VDYBN-27WPP-V4HQT-9VMD4-VMK7H /accepteula
+
+2022 DataCenter: 
+dism /online /set-edition:ServerDatacenter /productkey:WX4NM-KYWYW-QJJR4-XV3QB-6VM33 /accepteula
+
+slmgr /ipk 4WXQN-8XY6G-HYMYP-GY6BT-XQDVV /ato
+
+To test the conversion:
+slmgr /xpr
+
+All the Version Keys are listed here:
+
+https://learn.microsoft.com/de-de/windows-server/get-started/kms-client-activation-keys
