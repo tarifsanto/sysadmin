@@ -1,6 +1,6 @@
 # ******************************************************
-# This Powershell Script upload files (specified datatypes) from a local PC directory to a remote SFTP directory and after successfull upload it deletes the files from local directory
-# Likewise it download certain files (specified file types) from FTP to a local PC directory and after successfull download it deletes the files from the FTP directory
+# This Powershell Script upload files (specified datatypes) from a local PC directory to a remote SFTP directory and after successfull upload it copies the files to a backup folder and then deletes the files from local directory
+# Likewise it download certain files (specified file types) from FTP to a local PC directory as well to a backup folder and after successfull download it deletes the files from the FTP directory
 # The script uses WinSCP Powershell Module. So it is required to install it first with the following command: Install-Module -Name WinSCP
 
 # +++ Tarif R. Santo +++
@@ -20,10 +20,22 @@ $FTPExportDirectory = "FTP-Export-Directory/"
 $LocalImportDirectory = "Local-Import-Directory\"
 $LocalExportDirectory = "Local-Export-Directory\"
 $RemoteImportDirectory = "FTP-Import-Directory/"
+$BackupOrderFile="Backup-Directory-for-downloaded-Files/"
+$BackupDataFile="Backup-Directory-for-uploaded-Files/"
+$logFilePath = "Path-for-Log-Files\SFTPScriptLog.txt" 
 
 # Specify Datatype / Data Extension Filter
 $FileType4Download = "*.ord"
 $FileType2Upload = "*.dat"
+
+# Logging Function
+function Log-Event {
+    param (
+        [string]$message
+    )
+    $logEntry = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $message`n"  # Add `n for newline
+    $logEntry | Out-File -FilePath $logFilePath -Append
+}
 
 # Get The HostKeyFingerprint
 function Get-SshFingerprint {
@@ -73,13 +85,20 @@ function DownloadFiles4mSFTP {
         SshHostKeyFingerprint = $sshHostKeyFingerprint
     }
 
-$session = New-Object WinSCP.Session
+    $session = New-Object WinSCP.Session
+
     try {
         # Connect to the SFTP server
         $session.Open($sessionOptions)
+
+        # Log event
+        Log-Event "SFTP Session initialization running"
         
         # List remote files
         $remoteFiles = $session.ListDirectory($RemoteExportPath)
+
+        # Log event
+        Log-Event "Directory listing running"
         
         foreach ($remoteFile in $remoteFiles.Files) {
             if ($remoteFile.IsDirectory) {
@@ -92,11 +111,16 @@ $session = New-Object WinSCP.Session
             # Download the files
             if ($remoteFileName -like $FileType4Download) {
                 $session.GetFiles($remoteFile.FullName, $localFilePath).Check()
+                Log-Event "Files are downloading from FTP Server to Local Folder"
             }
         }
     } finally {
+        # Backup the order files to local backup folder
+        Copy-Item -Path "$LocalImportPath\*.ord" -Destination $BackupOrderFile -Force
+        Log-Event "Backup of order files is completed"
         # Delete all the files from the server
-        $session.RemoveFiles(($RemoteExportPath + "*")).Check()
+        $session.RemoveFiles(($RemoteExportPath + $FileType4Download)).Check()
+        Log-Event ".ord files from FTP Server are deleted"
         # Disconnect and dispose of the session
         $session.Dispose()
     }
@@ -137,16 +161,21 @@ function UploadFilesToFTP {
         $transferOptions = New-Object WinSCP.TransferOptions
         $transferOptions.TransferMode = [WinSCP.TransferMode]::Binary
 
-        # Upload Upload the files one by one to the remote SFTP directory
-        foreach ($htmlFile in $LocalExportFiles) {
-            $transferResult = $session.PutFiles($htmlFile.FullName, $remoteImportPath, $False, $transferOptions)
+        # Upload the files one by one to the remote SFTP directory
+        foreach ($dataFile in $LocalExportFiles) {
+            $transferResult = $session.PutFiles($dataFile.FullName, $remoteImportPath, $False, $transferOptions)
             $transferResult.Check()
             }
+        Log-Event "Files uploading to FTP Server is done!"
 
     } finally {
-        # Delete all the files from the local directory
-        Remove-Item -Path "$localExportPath\*" -Force
+        # Copy the .dat files to backup folder before deleting
+        Copy-Item -Path "$localExportPath\*.dat" -Destination $BackupDataFile -Force
+        Log-Event ".dat files are copied to backup folder"
+        # Delete all the .dat files from the local directory
+        Remove-Item -Path "$localExportPath\*.dat" -Force
         # Disconnect and dispose of the session
+        Log-Event "only .dat files are deleted from the local folder"
         $session.Dispose()
     }
 }
