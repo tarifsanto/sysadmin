@@ -31,6 +31,7 @@
 
 4. Install DHCP SRV HA:
 
+5.
 
 
 
