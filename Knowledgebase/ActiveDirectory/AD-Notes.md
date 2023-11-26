@@ -14,6 +14,7 @@
 	- when satisfied with Purpleknight and Ping Castle then implement Tiering Model
 	- Document the steps of tiering
 	- Test it with Bloodhound and Purple Knight
+	- Test to read the users description to read the written password
 	- Bring satisfied result from Bloodhound inspection
 
 	- If it works then write a PS script that creates tiering model including GPO in a single run
@@ -35,11 +36,6 @@
 
 
 
-
-
-
-
-
 ## Monitor and Audit Tools:
 1. https://github.com/ANSSI-FR/ADTimeline
 2. Script that detects any changes of memberships in your most privileged groups
@@ -49,3 +45,24 @@
 
 ## AD Forest Recovery Guide
 https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/forest-recovery-guide/ad-forest-recovery-guide
+
+
+# Guide
+
+## Install DC1
+
+- Install WS 2022 -> Done!
+- Change the Hostname and update OS -> Done!
+- Setup Static IPv4, Gateways is Router, DNS is Router and WS -> Done!
+- Disable IPv6 -> Done!
+- Install Active Directory Domain Services with AD DS -> Done!
+- After restart check and change DNS Setting: Only DNS Server IP would be the Server IP itself -> Done!
+-
+
+
+# Hardening AD
+
+1. Disable Printer Spooler Service if not required: Open Services -> Disable "printer spooler"
+2. Change the default Password Policy (8 Character long, no later than 3 years): https://activedirectorypro.com/how-to-configure-a-domain-password-policy/
+   Apply Microsoft Security Baseline ADImport PS to Import the required GPO. The Link them to the Domain Controller and unlink the default domain policy, then gpupdate and take a look again
+3.
