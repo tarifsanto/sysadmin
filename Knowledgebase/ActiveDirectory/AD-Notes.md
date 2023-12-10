@@ -80,7 +80,7 @@ Privilege Access Security:
 1. https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/securing-privileged-access-for-the-ad-admin-part-1/ba-p/259166?WT.mc_id=M365-MVP-6771
 2. https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/securing-privileged-access-for-the-ad-admin-part-2/ba-p/259167
 
-Tiering:
+Tiering Plan:
 
 Deign-1:
 
