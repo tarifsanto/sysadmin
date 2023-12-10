@@ -42,6 +42,7 @@
 3. Purple Knight by Semperis
 4. Bloodhound
 5. PingCastle
+6. ManageEngine all tools: specially -> https://www.manageengine.com/products/self-service-password/download-free.html?btmMenu
 
 ## AD Forest Recovery Guide
 https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/forest-recovery-guide/ad-forest-recovery-guide
