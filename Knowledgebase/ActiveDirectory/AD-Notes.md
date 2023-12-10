@@ -50,6 +50,7 @@ https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/forest-re
 
 # Guide
 
+
 ## Install DC1
 
 - Install WS 2022 -> Done!
@@ -67,3 +68,41 @@ https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/forest-re
 2. Change the default Password Policy (8 Character long, no later than 3 years): https://activedirectorypro.com/how-to-configure-a-domain-password-policy/
    Apply Microsoft Security Baseline ADImport PS to Import the required GPO. The Link them to the Domain Controller and unlink the default domain policy, then gpupdate and take a look again
 3.
+
+
+AD Tiering Guides:
+1. https://www.frankysweb.de/active-directory-einfache-manahmen-fr-mehr-sicherheit-teil-1/
+2. https://www.frankysweb.de/einfache-massnahmen-fuer-mehr-sicherheit-admin-host/
+3. https://www.frankysweb.de/einfache-massnahmen-fuer-mehr-sicherheit-im-ad-teil-3-admin-tiers/
+4. https://www.frankysweb.de/einfache-massnahmen-fuer-mehr-sicherheit-im-ad-teil-4-lokale-administratoren/
+
+Privilege Access Security:
+1. https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/securing-privileged-access-for-the-ad-admin-part-1/ba-p/259166?WT.mc_id=M365-MVP-6771
+2. https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/securing-privileged-access-for-the-ad-admin-part-2/ba-p/259167
+
+Tiering:
+
+WILDCAT
+	Administrators
+		Admins
+			Admin-T1, Admin-T2, Admin-T3 
+		AdminsGroups
+			AdminsGroup-T1, AdminsGroup-T2, AdminsGroup-T3
+	Users
+		Management
+			Muser1, Muser2 ...
+		Sells
+			Suser1, Suser2 ...
+		Groups
+			Mgmnt-Group
+			Sells-Group
+	ServiceAccounts
+		AppSrvc1, AppSrvc2 ...
+		
+	Workstations (Add all Workstations here by default)
+		PC1, PC2, PC3, PC4 ...
+	Servers
+		Servers-T0
+			EX-Srv ...
+		Servers-T1
+			App-Srv1, App-Srv2 ...
