@@ -81,6 +81,8 @@ Privilege Access Security:
 
 Tiering:
 
+Deign-1:
+
 WILDCAT
 	Administrators
 		Admins
@@ -105,3 +107,56 @@ WILDCAT
 			EX-Srv ...
 		Servers-T1
 			App-Srv1, App-Srv2 ...
+
+Design-2:
+
+WILDCAT.LOCAL
+	Tier0
+		Administration-T0
+			Admins-T0
+				Admin1-T0, Admin2-T0
+			AdminsGroup-T0
+				AdminsGroup1-T0
+		ServiceAccounts-T0
+			SvcAcc1-T0, SvcAcc2-T0
+		Servers-T0
+			EX-SRV, SQL-SRV, IAM, PAM, SIEM
+		PAWs
+			AdminHost1-T0, AdminHost2-T0
+
+	Tier1
+		Administration-T1
+			Admins-T1
+				Admin1-T1, Admin2-T1
+			AdminsGroup-T1
+				AdminsGroup1-T1
+		ServiceAccounts-T0
+			SvcAcc1-T1, SvcAcc2-T1
+		Servers-T1
+			AppSrv1-T1, AppSrv2-T1
+		PAWs
+			AdminHost1-T1, AdminHost2-T1
+
+	Tier2
+		Administration-T2
+			Admins-T2
+				Admin1-T2, Admin2-T2
+			AdminsGroup-T2
+				AdminsGroup1-T2
+		ServiceAccounts-T2
+			SvcAcc1-T2, SvcAcc2-T2
+		Servers-T2		
+		PAWs
+			AdminHost1-T2, AdminHost2-T2
+		Users
+			Management
+				M-user1, M-user2 ...
+			Sells
+				S-user1, S-user2 ...
+		Groups
+			Mgmnt-Group
+			Sells-Group
+		Computers
+			PC1, PC2, ...
+			
+
