@@ -111,7 +111,7 @@ WILDCAT
 
 Design-2:
 
-WILDCAT.LOCAL
+BIELEFELD.LOCAL
 	Tier0
 		Administration-T0
 			Admins-T0
@@ -151,12 +151,12 @@ WILDCAT.LOCAL
 			AdminHost1-T2, AdminHost2-T2
 		Users
 			Management
-				M-user1, M-user2 ...
+				user1-mgmnt, user2-mgmnt ...
 			Sells
-				S-user1, S-user2 ...
+				user1-sells, user2-sells ...
 		Groups
-			Mgmnt-Group
-			Sells-Group
+			ManagementGroup
+			SellsGroup
 		Computers
 			PC1, PC2, ...
 			
